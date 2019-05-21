@@ -4,15 +4,15 @@ A script to automate the tedious process of releasing music.
 Currently a work in progress.
 
 ## Features
-[x] Smartly get release info from user
-[ ] Rename audio files
-[ ] Apply ID3 Metadata (artist, album, track no., cover art image, release date, ...) to audio files
-[ ] Automatically create missing "square" cover art formats
-[ ] Automatically create videos from "wide" cover arts (required for YouTube)
-[ ] Upload to a website (files and database)
-[ ] Upload to YouTube
-[ ] Post to social medias
-[ ] Send a newsletter  
+- [x] Smartly get release info from user
+- [ ] Rename audio files
+- [ ] Apply ID3 Metadata (artist, album, track no., cover art image, release date, ...) to audio files
+- [ ] Automatically create missing "square" cover art formats
+- [ ] Automatically create videos from "wide" cover arts (required for YouTube)
+- [ ] Upload to a website (files and database)
+- [ ] Upload to YouTube
+- [ ] Post to social medias
+- [ ] Send a newsletter  
 
 ## Installing
 Make sure you have PIP & Python (3.6 or later) installed. Then:
