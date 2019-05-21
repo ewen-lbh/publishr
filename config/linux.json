@@ -1,0 +1,56 @@
+{
+    "paths": {
+        "dirs": {
+            "videos": "~/MAO/projects/finished/<title>/videos",
+            "audios": "~/MAO/projects/finished/<title>/renders",
+            "covers": "~/MAO/projects/finished/<title>/cover-arts"
+        },
+        "renamed": {
+            "videos": "<tracknum> - <artist> - <track>.mp4",
+            "audios": "<tracknum> - <artist> - <track>.mp3",
+            "covers": "<title>--<format>.png"
+        },
+        "files": {
+            "videos": "<tracknum>--<track>.mp4",
+            "audios": "<tracknum>--<track>.mp3",
+            "covers": "<title>--<format> cover art.png"
+        },
+        "misc": {
+            "track_data": "~/MAO/publisher/trackdata_latest.json"
+        },
+        "ftp": {
+            "videos": "/static/music/video/<collection>/<title:slug>.mp4",
+            "audios": "/static/music/audio/<collection>/<title:slug>.mp3",
+            "covers": "/static/music/images/<collection>/<format>.<extension>"
+        }
+    },
+    "titles": {
+        "track": "<track>",
+        "single": "<title>",
+        "remix": "<artist> - <track> (<<defaults/artist>> Remix)",
+        "ep": "<artist> - <title> EP",
+        "album": "<artist> - <title>",
+        "videos": "<artitst> - <track> (Music Video)"
+    },
+    "defaults": {
+        "artist": "Mx3"
+    },
+    "options": {
+        "automatic": {
+            "recover": false,
+            "open-dirs": true,
+            "create-dirs": true
+        },
+        "show-help": false,
+        "confirm": {
+            "track-title": false,
+            "track-number": true
+        }
+    },
+    "description": {
+        "languages": [
+            "fr","en"
+        ],
+        "file": "~/MAO/finished/<title>/descriptions/<lang>.txt"
+    }
+}
