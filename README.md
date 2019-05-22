@@ -5,7 +5,7 @@ Currently a work in progress.
 
 ## Features
 - [x] Smartly get release info from user
-- [ ] Rename audio files
+- [x] Rename audio files
 - [ ] Apply ID3 Metadata (artist, album, track no., cover art image, release date, ...) to audio files
 - [ ] Automatically create missing "square" cover art formats
 - [ ] Automatically create videos from "wide" cover arts (required for YouTube)

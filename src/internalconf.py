@@ -37,7 +37,8 @@ CONFIG_TYPES = {
         "videos": str
     },
     "defaults": {
-        "artist": str
+        "artist": str,
+        "covers-description":str
     },
     "options": {
         "automatic":{
@@ -49,6 +50,8 @@ CONFIG_TYPES = {
         "confirm": {
             "track-title":bool,
             "track-number":bool,
+            'rename-tracks':bool,
+            "apply-metadata":bool,
         }
     },
     "description":{
@@ -61,7 +64,7 @@ CONFIG_TYPES = {
 CFGWIZ_TRUES = 'True true yes on'.split(' ')
 CFGWIZ_FALSES = 'False false no off'.split(' ')
 CFGWIZ_LISTS = re.compile('\[?(?:([^,]+,))+\]?')
-LOG_SHOW_MODULE = False
+LOG_SHOW_MODULE = True
 
 LOG_FORMAT = ("[{levelname:>8}@{module}.{funcName}:{lineno}]" if LOG_SHOW_MODULE else '[{levelname:^8}]') + " {message}"
 

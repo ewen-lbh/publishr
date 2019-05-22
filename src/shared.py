@@ -24,7 +24,7 @@ class Schemer:
         scheme = self._to_regex(scheme_)
 
         if not scheme.match(string):
-            logging.error(f"Trying to extract info but pattern does not match string (scheme={scheme_};string={string})")
+            raise ValueError(f"Trying to extract info but pattern does not match string (scheme={scheme_};string={string})")
             return [[]]
 
         extracted = [e.groupdict() for e in scheme.finditer(string)]
@@ -51,9 +51,12 @@ class Schemer:
 
         return processed
 
-    def get(self, scheme):
-        data = self.data
+    def get(self, scheme, **additional_data):
+        data = {**self.data, **additional_data}
         return self.apply(scheme, **data)
+
+    def fullpath(self, dir, filename):
+        return os.path.join(self.get('paths/dirs/'+str(dir)), filename)
 
 
 class Utils:

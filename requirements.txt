@@ -3,3 +3,5 @@ flatten-dict==0.0.3.post1
 humanfriendly==4.18
 pathlib2==2.3.3
 six==1.12.0
+eyed3==0.8.10
+python-magic==0.4.15

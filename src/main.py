@@ -1,5 +1,5 @@
 from src import configurator, shared, steps
-from src.steps import rename, covers, publish
+from src.steps import audiofiles, covers, publish
 from src import data as _data
 
 def help():
@@ -26,4 +26,7 @@ def main(args):
     schemes = shared.Schemer(config, data)
 
     # renaming
-    rename.do()
+    audiofiles.rename(config, data)
+
+    # metadata
+    audiofiles.metadata(config, data)

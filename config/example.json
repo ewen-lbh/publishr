@@ -6,17 +6,17 @@
             "covers": "~/MAO/projects/finished/<title>/cover-arts"
         },
         "renamed": {
-            "videos": "<tracknum> - <artist> - <track>.mp4",
-            "audios": "<tracknum> - <artist> - <track>.mp3",
+            "videos": "<tracknum> - <artist> - <title>.mp4",
+            "audios": "<tracknum> - <artist> - <title>.mp3",
             "covers": "<title>--<format>.png"
         },
         "files": {
-            "videos": "<tracknum>--<track>.mp4",
-            "audios": "<tracknum>--<track>.mp3",
+            "videos": "<tracknum>--<title>.mp4",
+            "audios": "<tracknum>--<title>.mp3",
             "covers": "<title>--<format> cover art.png"
         },
         "misc": {
-            "track_data": "~/MAO/publisher/trackdata_latest.json"
+            "track_data": "~/Coding/projects/publishr/latest.json"
         },
         "ftp": {
             "videos": "/static/music/video/<collection>/<title:slug>.mp4",
@@ -25,7 +25,7 @@
         }
     },
     "titles": {
-        "track": "<track>",
+        "track": "<title>",
         "single": "<title>",
         "remix": "<artist> - <track> (<<defaults/artist>> Remix)",
         "ep": "<artist> - <title> EP",
@@ -33,7 +33,8 @@
         "videos": "<artitst> - <track> (Music Video)"
     },
     "defaults": {
-        "artist": "Mx3"
+        "artist": "Mx3",
+        "covers-description": "Cover art by Mx3: https://mx3creations.com/"
     },
     "options": {
         "automatic": {
@@ -44,12 +45,15 @@
         "show-help": false,
         "confirm": {
             "track-title": false,
-            "track-number": true
+            "track-number": false,
+            "rename-tracks": true,
+            "apply-metadata": true
         }
     },
     "description": {
         "languages": [
-            "fr","en"
+            "fr",
+            "en"
         ],
         "file": "~/MAO/finished/<title>/descriptions/<lang>.txt"
     }

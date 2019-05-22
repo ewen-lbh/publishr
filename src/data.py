@@ -63,7 +63,15 @@ def get(config, utils):
                 artist = config.get('defaults/artist')
 
             # extract track info
-            trackinfo = schemes.extract('paths/files/audios', filename)[0]
+            try:
+                trackinfo = schemes.extract('paths/files/audios', filename)[0]
+            except ValueError:
+                try:
+                    trackinfo = schemes.extract('paths/renamed/audios', filename)[0]
+                except ValueError:
+                    logging.fatal(f'The audio file "{filename}" does not match any scheme (neither paths/files/audios nor paths/files/renamed)')
+
+            trackinfo['filename'] = filename
             trackinfo['artist'] = artist
             tracknum = trackinfo['tracknum']
 
@@ -80,9 +88,7 @@ def get(config, utils):
             trackinfo['tracknum'] = tracknum
 
             # add to tracks data list
-            tracks.append({
-                'title': title, 'artist': artist, 'tracknum':tracknum,
-            })
+            tracks.append(trackinfo)
 
         return tracks
 
