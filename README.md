@@ -3,7 +3,9 @@ A script to automate the tedious process of releasing music.
 
 Currently a work in progress.
 
-## Features
+## Main Features
+See also: [less-important features](#other features)
+- [x] Configurable
 - [x] Smartly get release info from user
 - [x] Rename audio files
 - [ ] Apply ID3 Metadata (artist, album, track no., cover art image, release date, ...) to audio files
@@ -48,3 +50,7 @@ Assuming you are in the `publishr` directory:
 ## Using APIs
 Work in progress section.
  
+## Other features
+- [ ] Colored logging output
+- [ ] Log to a file latest.log
+- [ ] Inherit configurations
