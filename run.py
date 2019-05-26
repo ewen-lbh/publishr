@@ -60,6 +60,8 @@ if __name__ == '__main__':
     from src import internalconf
     import coloredlogs
 
-    coloredlogs.install(level='DEBUG', fmt=internalconf.LOG_FORMAT, style='{')
+    format_type = 'extended' if False else 'basic'
+
+    coloredlogs.install(level='INFO', fmt=internalconf.LOG_FORMAT[format_type], style='{')
 
     main.main(args)

@@ -64,8 +64,12 @@ CONFIG_TYPES = {
 CFGWIZ_TRUES = 'True true yes on'.split(' ')
 CFGWIZ_FALSES = 'False false no off'.split(' ')
 CFGWIZ_LISTS = re.compile('\[?(?:([^,]+,))+\]?')
-LOG_SHOW_MODULE = True
 
-LOG_FORMAT = ("[{levelname:>8}@{module}.{funcName}:{lineno}]" if LOG_SHOW_MODULE else '[{levelname:^8}]') + " {message}"
+LOG_FORMAT = {
+    'extended': "[{levelname:>8}@{module}.{funcName}:{lineno}] {message}",
+    'basic'   : "[{levelname:^8}] {message}"
+}
+
+COVER_ART_FORMATS = ['wide', 'square']
 
 LATEST_TRACKDATA_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'latest.json')
