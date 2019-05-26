@@ -12,7 +12,7 @@
             "videos": "D:/#/MAO/projects/pending/videos/<tracknum>--<title>.mp4",
             "audios": "D:/#/MAO/projects/pending/renders/next-album/<tracknum>--<title>.mp3",
             "covers": "D:/#/MAO/projects/pending/cover-arts/<title>/project-files/<title> cover art-assets/<format>.png",
-            "covers-lowres": "D:/#/MAO/projects/pending/cover-arts/<title>/<title>-assets/<format>-lowres.png",
+            "covers-lowres": "D:/#/MAO/projects/pending/cover-arts/<title>/<title>-assets/<format>-lowres.jpg",
             "project-files": "D:/#/MAO/projects/pending/project-files/next-album/<filename>",
             "descriptions": "D:/#/MAO/projects/pending/descriptions/<title>--<lang>.txt"
         },
