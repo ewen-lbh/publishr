@@ -54,3 +54,4 @@ Work in progress section.
 - [ ] Colored logging output
 - [ ] Log to a file latest.log
 - [ ] Inherit configurations
+- [ ] Translation system
