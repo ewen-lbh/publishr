@@ -13,14 +13,27 @@ class Schemer:
         self.config_placeholder = re.compile('<<(.+)>>')
 
     def _to_regex(self, scheme):
+        scheme = scheme.replace('\\', '/')
         # scheme = self.config.get(scheme)
         for placeholder in self.placeholder.findall(scheme):
             # todo support for type declarators (\d+ or \w+ instead of .+)
             scheme = scheme.replace(f'<{placeholder}>', f'(?P<{placeholder}>.+)')
+        logging.debug(f'regexed: -> {scheme}')
+
         return re.compile(scheme)
 
+    def _unknown_placeholders(self, scheme, data):
+        for placeholder in self.placeholder.findall(scheme):
+            if placeholder not in data.keys():
+                logging.error(f'Placeholder <{placeholder}> unavailable for scheme {scheme}')
+
     def extract(self, scheme, string):
+        if scheme.startswith('paths'):
+            string = string.replace('\\','/')
+        scheme_req = scheme
         scheme_ = self.config.get(scheme)
+        # backslashes are not regex's friends, constantly getting errors. Might need to convert
+        # it back.
         scheme = self._to_regex(scheme_)
 
         if not scheme.match(string):
@@ -37,26 +50,36 @@ class Schemer:
     def match(self, scheme, string):
         return self.get(scheme) == string
 
+    def scheme_match(self, scheme, string):
+        if scheme.startswith('paths'):
+            string = string.replace('\\','/')
+        regex = self.config.get(scheme)
+        regex = self._to_regex(regex)
+        ret = regex.match(string)
+
+        logging.debug(f'matching {regex} against {string}: {ret}')
+
+        return ret
+
+
     def apply(self, scheme, **data):
         loaded_scheme = self.config.get(scheme)
+        self._unknown_placeholders(scheme, data)
         processed = loaded_scheme
         for placeholder in self.placeholder.findall(loaded_scheme):
-            processed = processed.replace(f'<{placeholder}>', data[placeholder])
+            processed = processed.replace(f'<{placeholder}>', str(data[placeholder]))
 
         for placeholder in self.config_placeholder.findall(loaded_scheme):
             processed = processed.replace(f'<<{placeholder}>>', self.config.get(placeholder))
 
-        if 'path' in scheme or 'file' in scheme:
-            processed = os.path.normpath(os.path.expanduser(processed))
+        if scheme.startswith('paths'):
+            processed = os.path.realpath(os.path.expanduser(processed))
 
         return processed
 
     def get(self, scheme, **additional_data):
         data = {**self.data, **additional_data}
         return self.apply(scheme, **data)
-
-    def fullpath(self, dir, filename):
-        return os.path.join(self.get('paths/dirs/'+str(dir)), filename)
 
 
 class Utils:

@@ -31,6 +31,25 @@ class Config:
             if key not in flat.keys() or key is None:
                 value = fix_missing(key)
             elif type(flat[key]) is not _type:
+                """
+                TOFIX: this
+                def fix_type(__type):
+                    if _type is int:
+                        try:
+                            value = __type(flat[key])
+                        except ValueError:
+                            value = fix_values(key)
+                        return value, True
+                    else:
+                        return None, False
+
+                value, fixed = fix_type(str)
+                value, fixed = fix_type(int)
+                value, fixed = fix_type(list)
+                value, fixed = fix_type(float)
+                if not fixed:
+                    value = fix_values(key)
+                """
                 value = fix_values(key)
             else:
                 value = flat[key]
@@ -42,16 +61,20 @@ class Config:
                 logging.info("Writing changes to the config file...")
                 f.write(json.dumps(unflatten(buffer, 'path'), indent=4))
 
-        self._dict = buffer
+        # On windows, flatten uses \\ for paths instead of /. Fix that.
+        self._dict = {k.replace('\\','/'):v for k,v in buffer.items()}
 
     def get(self, what):
+        ret = None
         try:
             ret = self._dict[what]
         except KeyError:
             logging.fatal(f'Setting "{what}" is not declared')
 
-        if 'path' in what or 'file' in what:
-            ret = os.path.normpath(os.path.expanduser(ret))
+        if what.startswith('paths'):
+            # backslashes are not regex's friends, constantly getting errors. Might need to convert
+            # it back.
+            ret = os.path.realpath(os.path.expanduser(ret)).replace('\\','/')
 
         return ret
 

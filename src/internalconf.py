@@ -3,60 +3,65 @@ import re
 
 SCHEME_FILTERS = ["slug"]
 CONFIG_TYPES = {
-    "paths": {
-        "dirs": {
-            "videos": str,
-            "audios": str,
-            "covers": str
-        },
+    "paths"                : {
         "renamed": {
-            "videos": str,
-            "audios": str,
-            "covers": str
+            "videos"       : str,
+            "audios"       : str,
+            "covers"       : str,
+            "covers-lowres": str,
+            "project-files": str,
+            "descriptions" : str,
         },
-        "files":  {
-            "videos": str,
-            "audios": str,
-            "covers": str
+        "files"  : {
+            "videos"       : str,
+            "audios"       : str,
+            "covers"       : str,
+            "covers-lowres": str,
+            "project-files": str,
+            "descriptions" : str,
         },
-        "misc": {
-            "track_data": str
+        "misc"   : {
+            "track_data_file": str
         },
-        "ftp": {
+        "ftp"    : {
             "videos": str,
             "audios": str,
             "covers": str
         }
     },
-    "titles": {
-        "track": str,
+    "titles"               : {
+        "track" : str,
         "single": str,
-        "remix": str,
-        "ep": str,
-        "album": str,
+        "remix" : str,
+        "ep"    : str,
+        "album" : str,
         "videos": str
     },
-    "defaults": {
-        "artist": str,
-        "covers-description":str
+    "defaults"             : {
+        "artist"            : str,
+        "covers-description": str
     },
-    "options": {
-        "automatic":{
-            "recover":bool,
-            "open-dirs":bool,
-            "create-dirs":bool,
+    "options"              : {
+        "automatic"          : {
+            "recover"    : bool,
+            "open-dirs"  : bool,
+            "create-dirs": bool,
         },
-        "show-help":bool,
-        "confirm": {
-            "track-title":bool,
-            "track-number":bool,
-            'rename-tracks':bool,
-            "apply-metadata":bool,
+        "show-help"          : bool,
+        "contract-rename-map": bool,
+        "confirm"            : {
+            "track-title"   : bool,
+            "track-number"  : bool,
+            'rename-tracks' : bool,
+            "apply-metadata": bool,
         }
     },
-    "description":{
-      "languages":list,
-      "file":str
+    "description-languages": list,
+    "various-artists"      : {
+        "threshold"   : str,
+        "separator"   : str,
+        "default-name": str,
+        "ask"         : bool
     }
 }
 
