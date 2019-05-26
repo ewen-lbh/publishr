@@ -10,6 +10,7 @@ Currently a work in progress.
 - [ ] Automatically create missing "square" cover art formats
 - [ ] Automatically create videos from "wide" cover arts (required for YouTube)
 - [ ] Upload to a website (files and database)
+- [ ] Create a .zip file containing all tracks (useful for website uploading)
 - [ ] Upload to YouTube
 - [ ] Post to social medias
 - [ ] Send a newsletter  
