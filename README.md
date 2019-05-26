@@ -28,7 +28,7 @@ If you prefer a one-liner: `git clone https://github.com/ewen-lbh/publishr.git &
 
 If you plan on using social medias publishing, website uploading or YouTube uploading:
 Rename `example.env` to `.env` and fill in your credentials
-(you will need to create API projects for the services you want to use, more details [here](#APIs))
+(you will need to create API projects for the services you want to use, more details [here](#Using APIs))
 
 ## Configuring
 Create a new json file in `config` and name it whatever you want.
@@ -45,6 +45,6 @@ Assuming you are in the `publishr` directory:
 (You can also use the short flag `-c`)
 
 
-## APIs
+## Using APIs
 Work in progress section.
  
