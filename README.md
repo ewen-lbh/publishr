@@ -32,6 +32,9 @@ If you plan on using social medias publishing, website uploading or YouTube uplo
 Rename `example.env` to `.env` and fill in your credentials
 (you will need to create API projects for the services you want to use, more details [here](#Using APIs))
 
+On MacOS, install additional dependencies:
+`brew install libmagic`
+
 ## Configuring
 Create a new json file in `config` and name it whatever you want.
 
@@ -45,8 +48,6 @@ Assuming you are in the `publishr` directory:
 `python3 run.py --config <config filename>`
 
 (You can also use the short flag `-c`)
-
-
 ## Using APIs
 Work in progress section.
  
