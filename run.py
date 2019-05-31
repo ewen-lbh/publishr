@@ -31,7 +31,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Automate music publishing')
 
     parser.add_argument('-c', '--config', metavar='PATH',
-                        help='Use a config file (must be located in ~/Coding/projects/publishr/config/')
+                        help='Use a config file (must be located in the repo\'s config folder')
 
     parser.add_argument('-w', '--write-to-config', action='store_true',
                         help='When asked about missing config items, add them to the file (so you won\'t be asked about it again')
