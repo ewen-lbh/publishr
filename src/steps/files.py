@@ -79,14 +79,15 @@ class Renamer:
 
         for src, dst in rename_map.items():
             logging.debug(f"MV {src} --> {dst}")
-            os.rename(self.schemes.get('paths/files/audios'),
-                      self.schemes.get('paths/renamed/audios'))
+            os.rename(src, dst)
             self.data['tracks'] = newtracksdata
 
 
-def rename(config, data):
+def rename(config, data, reverse=False):
     renamer = Renamer(data=data, config=config)
     rename_map, _ = renamer.map()
+    if reverse:
+        rename_map = {v:k for k,v in rename_map.items()}
     if len(rename_map) < 1:
         logging.debug(f"Found no files to rename. (all tracks filename match dirs/renamed/audios)")
         return True
