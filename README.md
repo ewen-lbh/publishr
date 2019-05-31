@@ -48,6 +48,9 @@ Assuming you are in the `publishr` directory:
 `python3 run.py --config <config filename>`
 
 (You can also use the short flag `-c`)
+
+Note that the default file extension is `.json`, you can ommit it by
+not specifying any file extension. (disable this behavior by using the `--no-auto-json` flag)
 ## Using APIs
 Work in progress section.
  

@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from src import internalconf, ui
 from flatten_dict import flatten, unflatten
@@ -31,25 +32,6 @@ class Config:
             if key not in flat.keys() or key is None:
                 value = fix_missing(key)
             elif type(flat[key]) is not _type:
-                """
-                TOFIX: this
-                def fix_type(__type):
-                    if _type is int:
-                        try:
-                            value = __type(flat[key])
-                        except ValueError:
-                            value = fix_values(key)
-                        return value, True
-                    else:
-                        return None, False
-
-                value, fixed = fix_type(str)
-                value, fixed = fix_type(int)
-                value, fixed = fix_type(list)
-                value, fixed = fix_type(float)
-                if not fixed:
-                    value = fix_values(key)
-                """
                 value = fix_values(key)
             else:
                 value = flat[key]
@@ -79,9 +61,11 @@ class Config:
         return ret
 
 
-def wizard(configfile=None, write=False):
+def wizard(configfile=None, write=False, no_auto_json=False):
     configdir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config')
-
+    # If the given filename does not have a file extension:
+    if not os.path.splitext(configfile)[1] and not no_auto_json:
+        configfile += '.json'
     if configfile not in os.listdir(configdir):
         if configfile is None:
             if ui.ask("No config file has been supplied. Wanna create a new one?",choices='yn'):
@@ -92,7 +76,8 @@ def wizard(configfile=None, write=False):
             else:
                 configfile = 'config.json'
         else:
-            logging.fatal(f'File "{configfile}" does not exist! Create one in "{configdir}"')
+            logging.fatal(f'Config file "{configfile}" does not exist! Create one in "{configdir}"')
+            sys.exit()
 
     def ask(key):
         # print(f"Oops! The setting '{key}' is not properly configured.")

@@ -48,6 +48,9 @@ if __name__ == '__main__':
     parser.add_argument('-q', '--quiet', action='store_true',
                         help='Only shows errors.')
 
+    parser.add_argument('-j','--no-auto-json', action='store_true',
+                        help="Don't autocomplete the config filename with '.json'")
+
     args = parser.parse_args()
 
 

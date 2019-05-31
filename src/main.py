@@ -18,7 +18,7 @@ Off you go!
 
 def main(args):
     # getting config
-    config = configurator.wizard(configfile=args.config, write=True)
+    config = configurator.wizard(configfile=args.config, write=True, no_auto_json=args.no_auto_json)
     # showing help
     if config.get('options/show-help'):
         help()
