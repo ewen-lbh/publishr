@@ -136,3 +136,9 @@ src/steps/__pycache__/__init__.cpython-37.pyc
 src/steps/__pycache__/covers.cpython-37.pyc
 src/steps/__pycache__/publish.cpython-37.pyc
 temp/
+
+# MacOS stuff
+**/.DS_Store
+
+# project specific
+config/macos.json
