@@ -59,7 +59,11 @@ def get(config, utils):
         dir = os.path.dirname(schemes.apply('paths/files/audios', title=title, slug=slug, tracknum=0))
         dirlist = [e for e in utils.listdir(dir) if schemes.scheme_match('paths/files/audios', os.path.join(dir, e))]
 
-        logging.info(f"Found {len(dirlist)} {shared.plural('track', len(dirlist))}")
+        if len(dirlist):
+            logging.info(f"Found {len(dirlist)} {shared.plural('track', len(dirlist))}")
+        else:
+            logging.fatal("No tracks where found.")
+            logging.info(f"Make sure that your file names matches the following pattern: {os.path.split(config.get('paths/files/audios'))[1]}")
 
         for filename in dirlist:
             if not re.match(r'.+\.mp3$', filename):
