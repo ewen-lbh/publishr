@@ -31,11 +31,13 @@ def text(msg, **kw):
     return ask(msg, **kw, askfunc=text_editor)
 
 def text_editor(msg):
+    tempdir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'temp')
+    os.makedirs(tempdir, exist_ok=True)
     import tkinter
 
     def save(textarea, root):
         t = textarea.get('1.0', 'end-1c')
-        with open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'temp', 'description.txt'), 'w') as f:
+        with open(os.path.join(tempdir, 'description.txt'), 'w') as f:
             f.write(t)
         root.destroy()
 
