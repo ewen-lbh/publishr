@@ -36,8 +36,8 @@ if __name__ == '__main__':
     parser.add_argument('-w', '--write-to-config', action='store_true',
                         help='When asked about missing config items, add them to the file (so you won\'t be asked about it again')
 
-    parser.add_argument('-v', '--verbosity', metavar='LEVEL', type=int,
-                        help='Set verbosity level (0-3). Higher values fall back to 3.')
+    parser.add_argument('-v', '--verbosity', metavar='LEVEL', type=int, default=3,
+                        help='Set verbosity level (0-4). Higher values fall back to 4. (0:FATAL (not recommended), 1:ERROR (only show errors), 2:WARNING (show errors & warnings), 3:INFO (default), 4:DEBUG (show everything, including debug information)')
 
     parser.add_argument('-d', '--dry-run', action='store_true',
                         help="Don't make any changes, but show what it would've done")
@@ -53,6 +53,15 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    # Fallback for verbosity levels > 4
+    if args.verbosity > 4:
+        args.verbosity = 4
+    # Verbosity set to 4 if --debug
+    if args.debug:
+        args.verbosity = 4
+    # Verbosity set to 1 if --quiet
+    if args.quiet:
+        args.verbosity = 1
 
     # Create a logger object.
     logger = logging.getLogger(__name__)
@@ -63,8 +72,12 @@ if __name__ == '__main__':
     from src import internalconf
     import coloredlogs
 
-    format_type = 'extended' if False else 'basic'
+    format_type = 'extended' if args.debug else 'basic'
+    if args.quiet:
+        loglv = 1
+    else:
+        loglv = internalconf.NUMERIC_LOG_LEVELS[args.verbosity]
 
-    coloredlogs.install(level='INFO', fmt=internalconf.LOG_FORMAT[format_type], style='{')
+    coloredlogs.install(level=loglv, fmt=internalconf.LOG_FORMATS[format_type], style='{')
 
     main.main(args)

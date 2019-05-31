@@ -70,11 +70,19 @@ CFGWIZ_TRUES = 'True true yes on'.split(' ')
 CFGWIZ_FALSES = 'False false no off'.split(' ')
 CFGWIZ_LISTS = re.compile('\[?(?:([^,]+,))+\]?')
 
-LOG_FORMAT = {
+LOG_FORMATS = {
     'extended': "[{levelname:>8}@{module}.{funcName}:{lineno}] {message}",
     'basic'   : "[{levelname:^8}] {message}"
 }
 
 COVER_ART_FORMATS = ['wide', 'square']
+
+NUMERIC_LOG_LEVELS = {
+    0:'FATAL',
+    1:'ERROR',
+    2:'WARNING',
+    3:'INFO',
+    4:'DEBUG',
+}
 
 LATEST_TRACKDATA_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'latest.json')
