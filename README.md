@@ -1,5 +1,5 @@
 # publishr
-A script to automate the tedious process of releasing music.
+> A script to automate the tedious process of releasing music.
 
 Currently a work in progress.
 
