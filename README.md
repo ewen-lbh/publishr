@@ -4,7 +4,7 @@ A script to automate the tedious process of releasing music.
 Currently a work in progress.
 
 ## Main Features
-See also: [other features](#other-features)
+See also: [other features](#Other-features)
 - [x] Configurable
 - [x] Smartly get release info from user
 - [x] Rename audio files
@@ -30,7 +30,7 @@ If you prefer a one-liner: `git clone https://github.com/ewen-lbh/publishr.git &
 
 If you plan on using social medias publishing, website uploading or YouTube uploading:
 Rename `example.env` to `.env` and fill in your credentials
-(you will need to create API projects for the services you want to use, more details [here](#Using APIs))
+(you will need to create API projects for the services you want to use, more details [here](#Using-APIs))
 
 On MacOS, install additional dependencies:
 `brew install libmagic`
