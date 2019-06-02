@@ -4,7 +4,7 @@ A script to automate the tedious process of releasing music.
 Currently a work in progress.
 
 ## Main Features
-See also: [other features](#Other features)
+See also: [other features](#other-features)
 - [x] Configurable
 - [x] Smartly get release info from user
 - [x] Rename audio files
