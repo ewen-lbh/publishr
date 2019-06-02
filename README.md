@@ -55,7 +55,7 @@ not specifying any file extension. (disable this behavior by using the `--no-aut
 Work in progress section.
  
 ## Other features
-- [ ] Colored logging output
+- [x] Colored logging output
 - [ ] Log to a file latest.log
 - [ ] Inherit configurations
 - [ ] Translation system
