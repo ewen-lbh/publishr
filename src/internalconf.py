@@ -51,11 +51,11 @@ CONFIG_TYPES = {
         "show-help"          : bool,
         "contract-rename-map": bool,
         "confirm"            : {
-            "track-title"   : bool,
-            "track-number"  : bool,
             'rename-tracks' : bool,
             "apply-metadata": bool,
-        }
+        },
+        "show-audiofiles-dirlist": bool,
+        "all-audios-are-final-versions": bool,
     },
     "description-languages": list,
     "various-artists"      : {

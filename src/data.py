@@ -59,25 +59,47 @@ def get(config, utils):
         any_remixes = ui.ask('at least one remix', choices='yn', default='no')
 
         tracks = list()
-        # whatever tracknum, since we only do this to get the dirname
-        dir = os.path.dirname(schemes.apply('paths/files/audios', title=title, slug=slug, tracknum=0))
-        dirlist = [e for e in utils.listdir(dir) if schemes.scheme_match('paths/files/audios', os.path.join(dir, e))]
+        # whatever filename, since we only do this to get the dirname
+        directory = os.path.dirname(schemes.apply('paths/files/audios', title=title, slug=slug, filename='whatever'))
+        dirlist = list()
+        for file in utils.listdir(directory):
+            patt = config.get('paths/files/audios').replace('<filename>','.+')
+            patt = re.compile(patt)
+
+            if patt.match(os.path.join(directory, file)):
+                dirlist.append(file)
+            else:
+                logging.debug(f'File "{file}" does not match pattern "{patt}"')
+        
 
         if len(dirlist):
-            logging.info(f"Found {len(dirlist)} {shared.plural('track', len(dirlist))}")
+            logging.info(f"Found {len(dirlist)} valid {shared.plural('file', len(dirlist))}")
         else:
             logging.fatal("No tracks where found.")
             logging.info(f"Make sure that your file names matches the following pattern: {os.path.split(config.get('paths/files/audios'))[1]}")
+            if config.get('options/automatic/open-dirs'):
+                logging.info(f"Opening directory {directory}")
+                webbrowser.open(directory)
+            sys.exit(1)
+
+        if config.get('options/show-audiofiles-dirlist'):
+            files = str()
+            for file in dirlist:
+                files += '\n'+(' '*(8+3) + str(os.path.split(file)[1]))
+            logging.info(f"Files in directory {directory}:{files}")
 
         for filename in dirlist:
             if not re.match(r'.+\.mp3$', filename):
-                logging.debug(f'Skipping file "{filename}"')
+                logging.debug(f'Skipping file "{filename}": is not a .mp3 file')
                 continue
 
             logging.info(f'Audio file "{filename}"...')
+            if not config.get('options/all-audios-are-final-versions'):
+                if not ui.ask('Is this file the latest version ?', choices='yn'):
+                    continue
 
             # turns into an absolute path
-            filename = os.path.join(dir, filename)
+            filename = os.path.join(directory, filename)
 
             # determinate if it's a remix or not
             if any_remixes:
@@ -90,30 +112,16 @@ def get(config, utils):
             else:
                 artist = config.get('defaults/artist')
 
-            # extract track info
-            try:
-                trackinfo = schemes.extract('paths/files/audios', filename)[0]
-            except ValueError:
-                try:
-                    trackinfo = schemes.extract('paths/renamed/audios', filename)[0]
-                except ValueError:
-                    logging.fatal(
-                        f'The audio file "{filename}" does not match any scheme (neither paths/files/audios nor paths/renamed/audios)')
+            # ask for basic track info
+            trackinfo = dict()
+            trackinfo['tracknum'] = int(ui.ask('Track number', choices=list(range(2,len(dirlist)))))
+            trackinfo['track_title'] = ui.ask('Track title', default=os.path.splitext(os.path.split(filename)[1])[0])
 
+            # set basic track info
             trackinfo['filename'] = filename
             trackinfo['artist'] = artist
+            trackinfo['title'] = title
             tracknum = trackinfo['tracknum']
-
-            # set track title
-            title = schemes.apply('titles/' + ('remix' if is_remix else 'track'), **trackinfo)
-            if config.get('options/confirm/track-title'):
-                title = ui.ask('Track name', default=title)
-            trackinfo['track_title'] = title
-
-            # set track number
-            if config.get('options/confirm/track-number'):
-                tracknum = ui.ask('Track #', default=tracknum)
-            trackinfo['tracknum'] = tracknum
 
             # set video if file exists
             videopath = schemes.apply('paths/files/videos', **trackinfo)
