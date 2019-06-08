@@ -141,4 +141,4 @@ temp/
 **/.DS_Store
 
 # project specific
-config/macos.json
+config/*(!example).json
