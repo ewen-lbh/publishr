@@ -2,9 +2,10 @@ import os
 
 import colorama
 from termcolor import colored as termcolor_colored
+from src import internalconf
 
 def ask(msg, choices=None, default=None, askfunc=input):
-    msg = '[QUESTION] '+msg
+    msg = internalconf.LOG_FORMATS['basic'].format(levelname='QUESTION', message=msg)
     if default:
         # add quotes around values with spaces
         q = '"' if ' ' in default else ''
