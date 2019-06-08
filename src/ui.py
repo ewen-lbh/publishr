@@ -21,6 +21,16 @@ def ask(msg, choices=None, default=None, askfunc=input):
         while ans not in choices:
             ans = askfunc(msg).strip()
             if ans == '': ans = default
+    elif choices is int:
+        ok = False
+        while not ok:
+            ans = askfunc(msg).strip()
+            try:
+                ans = int(ans)
+                ok = True
+            except ValueError:
+                pass
+
     else:
         ans = None or default
         while ans is not choices:
