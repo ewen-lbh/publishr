@@ -25,6 +25,10 @@ def get(config, utils):
             else:
                 logging.warning(f'Description file not found for language {lang}')
                 descs[lang] = ui.text(f'description({lang})')
+                if config.get('options/save-descriptions'):
+                    logging.info(f'Saving description to file "{file}"...')
+                    with open(file, 'w', encoding='utf8') as f:
+                        f.write(descs[lang])
         return descs
 
     def get_kind(tracks):

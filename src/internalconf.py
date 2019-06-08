@@ -47,6 +47,7 @@ CONFIG_TYPES = {
             "open-dirs"  : bool,
             "create-dirs": bool,
         },
+        "save-descriptions": bool,
         "show-help"          : bool,
         "contract-rename-map": bool,
         "confirm"            : {
