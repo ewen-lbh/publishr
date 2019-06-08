@@ -1,6 +1,7 @@
 import os
 
 from src.main import main
+from src import internalconf
 import logging
 import argparse
 
@@ -32,9 +33,6 @@ if __name__ == '__main__':
 
     parser.add_argument('-c', '--config', metavar='PATH',
                         help='Use a config file (must be located in the repo\'s config folder')
-
-    parser.add_argument('-w', '--write-to-config', action='store_true',
-                        help='When asked about missing config items, add them to the file (so you won\'t be asked about it again')
 
     parser.add_argument('-v', '--verbosity', metavar='LEVEL', type=int, default=3,
                         help='Set verbosity level (0-4). Higher values fall back to 4. (0:FATAL (not recommended), 1:ERROR (only show errors), 2:WARNING (show errors & warnings), 3:INFO (default), 4:DEBUG (show everything, including debug information)')
@@ -73,10 +71,7 @@ if __name__ == '__main__':
     import coloredlogs
 
     format_type = 'extended' if args.debug else 'basic'
-    if args.quiet:
-        loglv = 1
-    else:
-        loglv = internalconf.NUMERIC_LOG_LEVELS[args.verbosity]
+    loglv = internalconf.NUMERIC_LOG_LEVELS[args.verbosity]
 
     coloredlogs.install(level=loglv, fmt=internalconf.LOG_FORMATS[format_type], style='{')
 
