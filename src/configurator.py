@@ -51,7 +51,7 @@ class Config:
         try:
             ret = self._dict[what]
         except KeyError:
-            logging.fatal(f'Setting "{what}" is not declared')
+            logging.error(f'Setting "{what}" is not declared')
 
         if what.startswith('paths'):
             # backslashes are not regex's friends, constantly getting errors. Might need to convert
@@ -65,8 +65,8 @@ def wizard(configfile=None, write=False, no_auto_json=False):
     configdir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config')
     # If the given filename does not have a file extension:
     if configfile:
-    if not os.path.splitext(configfile)[1] and not no_auto_json:
-        configfile += '.json'
+        if not os.path.splitext(configfile)[1] and not no_auto_json:
+            configfile += '.json'
         
     if configfile not in os.listdir(configdir):
         if configfile is None:
