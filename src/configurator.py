@@ -64,8 +64,10 @@ class Config:
 def wizard(configfile=None, write=False, no_auto_json=False):
     configdir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config')
     # If the given filename does not have a file extension:
+    if configfile:
     if not os.path.splitext(configfile)[1] and not no_auto_json:
         configfile += '.json'
+        
     if configfile not in os.listdir(configdir):
         if configfile is None:
             if ui.ask("No config file has been supplied. Wanna create a new one?",choices='yn'):
