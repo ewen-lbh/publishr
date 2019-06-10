@@ -73,7 +73,8 @@ CFGWIZ_LISTS = re.compile('\[?(?:([^,]+,))+\]?')
 
 LOG_FORMATS = {
     'extended': "[{levelname:>8}@{module}.{funcName}:{lineno}] {message}",
-    'basic'   : "[{levelname:^8}] {message}"
+    'basic'   : "[{levelname:^8}] {message}",
+    'minimal' : "{message}"
 }
 
 COVER_ART_FORMATS = ['wide', 'square']

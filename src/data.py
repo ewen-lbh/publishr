@@ -39,7 +39,7 @@ def get(config, utils):
         else:
             kind = 'Single'
 
-        return ui.ask('kind', choices=('Single', 'EP', 'Album'), default=kind)
+        return ui.ask(value='kind', choices=('Single', 'EP', 'Album'), default=kind)
 
     def get_artist(tracks):
         deduped_artists = list(set([e['artist'] for e in tracks]))
@@ -56,20 +56,21 @@ def get(config, utils):
 
     def get_tracks(title):
 
-        any_remixes = ui.ask('at least one remix', choices='yn', default='no')
+        any_remixes = ui.ask(value='at least one remix', choices='yn', default='no')
 
         tracks = list()
         # whatever filename, since we only do this to get the dirname
         directory = os.path.dirname(schemes.apply('paths/files/audios', title=title, slug=slug, filename='whatever'))
         dirlist = list()
         for file in utils.listdir(directory):
-            patt = config.get('paths/files/audios').replace('<filename>','.+')
+            patt = config.get('paths/files/audios').replace('<filename>','(.+)')
+            fname_patt = re.compile(os.path.split(patt)[1])
             patt = re.compile(patt)
 
             if patt.match(os.path.join(directory, file)):
                 dirlist.append(file)
             else:
-                logging.debug(f'File "{file}" does not match pattern "{patt}"')
+                logging.debug(f'Pattern "{fname_patt.pattern}" not matched for file "{file}"')
         
 
         if len(dirlist):
@@ -83,10 +84,11 @@ def get(config, utils):
             sys.exit(1)
 
         if config.get('options/show-audiofiles-dirlist'):
-            files = str()
-            for file in dirlist:
-                files += '\n'+(' '*(8+3) + str(os.path.split(file)[1]))
-            logging.info(f"Files in directory {directory}:{files}")
+            if len(dirlist) > 1:
+                files = str()
+                for file in dirlist:
+                    files += '\n'+(' '*(8+3) + str(os.path.split(file)[1]))
+                logging.info(f"Files in directory {directory}:{files}")
 
         for filename in dirlist:
             if not re.match(r'.+\.mp3$', filename):
@@ -103,19 +105,24 @@ def get(config, utils):
 
             # determinate if it's a remix or not
             if any_remixes:
-                is_remix = ui.ask('remix', choices='yn', default='no')
+                is_remix = ui.ask(value='remix', choices='yn', default='no')
             else:
                 is_remix = False
 
             if is_remix:
-                artist = ui.ask('Original artist')
+                artist = ui.ask(value='Original artist')
             else:
                 artist = config.get('defaults/artist')
 
             # ask for basic track info
             trackinfo = dict()
-            trackinfo['tracknum'] = int(ui.ask('Track number', choices=list(range(2,len(dirlist)))))
-            trackinfo['track_title'] = ui.ask('Track title', default=os.path.splitext(os.path.split(filename)[1])[0])
+            if len(dirlist) > 1:
+                trackinfo['tracknum'] = int(ui.ask(value='Track no. ', choices=list(range(2,len(dirlist)))))
+            else:
+                trackinfo['tracknum'] = 1
+
+
+            trackinfo['track_title'] = ui.ask(value='Track title', default=patt.search(filename).group(1))
 
             # set basic track info
             trackinfo['filename'] = filename
@@ -180,8 +187,8 @@ def get(config, utils):
     else:
         schemes = shared.Schemer(config, None)
 
-        title = ui.ask('Title')
-        slug = ui.ask('Title slug', default=shared.slugify(title))
+        title = ui.ask(value='Title')
+        slug = ui.ask(value='Title slug', default=shared.slugify(title))
 
         tracks = get_tracks(title)
 

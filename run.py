@@ -48,6 +48,9 @@ if __name__ == '__main__':
 
     parser.add_argument('-j','--no-auto-json', action='store_true',
                         help="Don't autocomplete the config filename with '.json'")
+    
+    parser.add_argument('-f', '--log-format', metavar='FORMAT NAME', default='notset',
+                        help="Sets the format for logs: basic, minimal or extended.")
 
     args = parser.parse_args()
 
@@ -67,12 +70,28 @@ if __name__ == '__main__':
     # By default the install() function installs a handler on the root logger,
     # this means that log messages from your code and log messages from the
     # libraries that you use will all show up on the terminal.
-    from src import internalconf
+    from src.internalconf import LOG_FORMATS, NUMERIC_LOG_LEVELS
     import coloredlogs
 
-    format_type = 'extended' if args.debug else 'basic'
-    loglv = internalconf.NUMERIC_LOG_LEVELS[args.verbosity]
+    if args.debug:
+        format_type = 'extended'
+    elif args.quiet:
+        format_type = 'minimal'
+    else:
+        format_type = 'basic'
 
-    coloredlogs.install(level=loglv, fmt=internalconf.LOG_FORMATS[format_type], style='{')
+    if args.log_format != 'notset' and args.log_format in LOG_FORMATS.keys():
+        format_type = args.log_format
+    
+    loglv = NUMERIC_LOG_LEVELS[args.verbosity]
+    fmt = LOG_FORMATS[format_type]
+    if args.dry_run:
+        fmt = '(DRY RUN) '+fmt
+
+
+    QUESTION = 60
+    from logging import addLevelName
+    addLevelName(QUESTION, "QUESTION")
+    coloredlogs.install(level=loglv, fmt=fmt, style='{')
 
     main.main(args)

@@ -1,17 +1,28 @@
 import os
-
+import logging
 import colorama
 from termcolor import colored as termcolor_colored
 from src import internalconf
 
-def ask(msg, choices=None, default=None, askfunc=input):
-    msg = internalconf.LOG_FORMATS['basic'].format(levelname='QUESTION', message=msg)
-    if default:
-        # add quotes around values with spaces
-        q = '"' if ' ' in default else ''
 
-        msg += f'={q}{default}{q}'
-    msg += ': '
+def ask(msg=None, choices=None, default=None, askfunc=input, value=None):
+
+    if value and not msg:
+        msg = str(value) + ' ?'
+
+    logging.log(60, msg)
+
+    msg = '>'
+
+    if value:
+        msg += str(value) + ' '
+        if choices == 'yn': msg+='?'
+
+    if default:
+        msg += f'[{default}]'
+    if value:
+        msg += ' = '
+
     if choices is None:
         return askfunc(msg) or default
     elif choices == 'yn':

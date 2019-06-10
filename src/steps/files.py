@@ -9,11 +9,12 @@ from src.internalconf import COVER_ART_FORMATS
 
 
 class Renamer:
-    def __init__(self, config, data):
+    def __init__(self, config, data, args):
         self.data = data
         self.config = config
         self.schemes = shared.Schemer(config, data)
         self.utils = shared.Utils(config)
+        self.args = args
 
     def map(self):
         """
@@ -78,13 +79,18 @@ class Renamer:
         rename_map, newtracksdata = self.map()
 
         for src, dst in rename_map.items():
-            logging.debug(f"MV {src} --> {dst}")
-            os.rename(src, dst)
+            commonprefix = os.path.commonprefix((src, dst))
+            disp_src = '.../' + src.replace(commonprefix, '')
+            disp_dst = '.../' + dst.replace(commonprefix, '')
+
+            logging.debug(f"MV {disp_src} --> {disp_dst}")
+            if not self.args.dry_run:
+                os.rename(src, dst)
             self.data['tracks'] = newtracksdata
 
 
-def rename(config, data, reverse=False):
-    renamer = Renamer(data=data, config=config)
+def rename(config, data, args, reverse=False):
+    renamer = Renamer(data=data, config=config, args=args)
     rename_map, _ = renamer.map()
     if reverse:
         rename_map = {v:k for k,v in rename_map.items()}
@@ -97,8 +103,8 @@ def rename(config, data, reverse=False):
             rename_map_disp = dict()
             for k, v in rename_map.items():
                 commonprefix = os.path.commonprefix((k, v))
-                k = '(...)' + os.path.sep + k.replace(commonprefix, '', 1)
-                v = '(...)' + os.path.sep + v.replace(commonprefix, '', 1)
+                k = '...' + os.path.sep + k.replace(commonprefix, '', 1)
+                v = '...' + os.path.sep + v.replace(commonprefix, '', 1)
                 rename_map_disp[k] = v
         else:
             rename_map_disp = rename_map
@@ -112,9 +118,10 @@ def rename(config, data, reverse=False):
 
 
 class Metadata:
-    def __init__(self, config, data):
+    def __init__(self, config, data, args):
         self.config = config
         self.data = data
+        self.args = args
         self.schemes = shared.Schemer(config, data)
 
     def preview(self):
@@ -165,11 +172,13 @@ class Metadata:
             audiofile.tag.release_date = eyed3.core.Date(year=date_y, day=date_d, month=date_m)
             # album arts (type, imagedata, imagetype, description)
             audiofile.tag.images.set = (
-                3, metadata['Cover art'], 'image/png', self.config.get('defaults/covers-description'))
+                3, metadata['Cover art'], 'image/png', self.config.get('defaults/covers-description')
+            )
 
             logging.debug(f'Saving tags into {filename}...')
             try:
-                audiofile.tag.save()
+                if not self.args.dry_run:
+                    audiofile.tag.save()
                 applied_count += 1
             except Exception as e:
                 logging.error('eyed3 error:' + str(e))
@@ -177,8 +186,8 @@ class Metadata:
         logging.info(f'Applied metadata to {applied_count} audio file{"s" if applied_count != 1 else ""}')
 
 
-def metadata(config, data):
-    metadatator = Metadata(config, data)
+def metadata(config, data, args):
+    metadatator = Metadata(config, data, args)
     if config.get('options/confirm/apply-metadata'):
         preview = metadatator.preview()
         logging.info("The following metadata will be applied:")

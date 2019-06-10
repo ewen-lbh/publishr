@@ -28,9 +28,9 @@ def main(args):
     schemes = shared.Schemer(config, data)
 
     # renaming (obligatory step)
-    renamed = files.rename(config, data)
+    renamed = files.rename(config, data, args)
     if not renamed:
         sys.exit()
 
     # metadata
-    files.metadata(config, data)
+    files.metadata(config, data, args)
