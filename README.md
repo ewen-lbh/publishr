@@ -9,7 +9,7 @@ See also: [other features](#Other-features)
 - [x] Smartly get release info from user
 - [x] Rename audio files
 - [ ] Apply ID3 Metadata (artist, album, track no., cover art image, release date, ...) to audio files
-- [ ] Automatically create missing "square" cover art formats
+- [ ] Automatically create missing cover arts (crop to get the square format, fill with edge color (or ask user for a color) to get the wide format)
 - [ ] Automatically create videos from "wide" cover arts (required for YouTube)
 - [ ] Upload to a website (files and database)
 - [ ] Create a .zip file containing all tracks (useful for website uploading)
